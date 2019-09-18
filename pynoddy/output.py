@@ -607,15 +607,16 @@ class NoddyOutput(object):
             # invert axis to have "correct" stratigraphic order
             cb.ax.invert_yaxis()
 
-        ax.set_title(title)
-        ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
+        # ax.set_title(title)
+        # ax.set_xlabel(xlabel)
+        # ax.set_ylabel(ylabel)
         
         if return_axis:
             return ax
         elif savefig:
             fig_filename = kwds.get("fig_filename", "%s_section_%s_pos_%d" % (self.basename, direction, cell_pos))
             plt.savefig(fig_filename, bbox_inches="tight")
+            plt.close(fig)
         else:
             plt.show()
             

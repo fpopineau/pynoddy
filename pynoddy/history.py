@@ -601,6 +601,7 @@ Version = 7.11
         for i in range(event_options['num_layers']):
             """Add stratigraphy layers"""
             layer_name = event_options['layer_names'][i]
+            layer_color = '{}'.format(event_options['layer_colors'][i])
             try:
                 density = event_options['density'][i]
             except KeyError:
@@ -609,6 +610,7 @@ Version = 7.11
             layer_lines = _Templates().strati_layer
             # now replace required variables
             layer_lines = layer_lines.replace("$NAME$", layer_name)
+            layer_lines = layer_lines.replace("$COLOR$", layer_color)
             layer_lines = layer_lines.replace("$HEIGHT$", "%.1f" % cum_thickness[i])
             layer_lines = layer_lines.replace("    ", "\t")
             layer_lines = layer_lines.replace("$DENSITY$", "%e" % density)
@@ -979,7 +981,7 @@ Version = 7.11"""
     Inclination    =  30.00
     Angle with the Magn. North    =  30.00
     Strength    = 1.60e-003
-    Color Name    = Color 92
+    Color Name    = Color $COLOR$
     Red    = 0
     Green    = 153
     Blue    = 48 """
@@ -1460,7 +1462,7 @@ Version = 7.11"""
     Origin Y    =   0.00
     Origin Z    = 5000.00
     Length X    = 10000.00
-    Length Y    = 7000.00
+    Length Y    = 10000.00
     Length Z    = 5000.00
     Geology Cube Size    =  50.00
     Geophysics Cube Size    = 50.00

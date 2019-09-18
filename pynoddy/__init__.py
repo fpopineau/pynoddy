@@ -101,7 +101,8 @@ def compute_model(history, output_name, **kwds):
 
     # check if Python > 3.5: use subprocess.run():
     if sys.version_info[0] == 3 and sys.version_info[1] > 4:
-        noddy_path = 'noddy'
+        # This next line is a BUG!
+        # noddy_path = 'noddy'
         subprocess.run([noddy_path, history, output_name, sim_type],
                               shell=False, stdout=subprocess.PIPE)
 
