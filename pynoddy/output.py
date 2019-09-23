@@ -552,7 +552,10 @@ class NoddyOutput(object):
             return_axis = False
             figsize = kwds.get("figsize", (10,6))
             fig = plt.figure(figsize=figsize)
-            ax = fig.add_subplot(111)
+            # ax = fig.add_subplot(111)
+            ax = plt.Axes(fig, [0., 0., 1., 1.])
+            ax.set_axis_off()
+            fig.add_axes(ax)
         savefig = kwds.get("savefig", False)
         colorbar = kwds.get("colorbar", True)
             
@@ -615,7 +618,7 @@ class NoddyOutput(object):
             return ax
         elif savefig:
             fig_filename = kwds.get("fig_filename", "%s_section_%s_pos_%d" % (self.basename, direction, cell_pos))
-            plt.savefig(fig_filename, bbox_inches="tight")
+            plt.savefig(fig_filename, bbox_inches="tight", pad_inches = 0)
             plt.close(fig)
         else:
             plt.show()
