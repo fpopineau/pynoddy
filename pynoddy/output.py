@@ -617,6 +617,7 @@ class NoddyOutput(object):
         if return_axis:
             return ax
         elif savefig:
+            # Remove axes
             fig_filename = kwds.get("fig_filename", "%s_section_%s_pos_%d" % (self.basename, direction, cell_pos))
             plt.savefig(fig_filename, bbox_inches="tight", pad_inches = 0)
             plt.close(fig)
