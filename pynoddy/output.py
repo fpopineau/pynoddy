@@ -533,6 +533,7 @@ class NoddyOutput(object):
         #try importing matplotlib
         try:
             import matplotlib.pyplot as plt
+            import matplotlib.colors as mcolors
         except ImportError:
             print ("Could not draw image as matplotlib is not installed. Please install matplotlib")
             
@@ -562,6 +563,15 @@ class NoddyOutput(object):
         # extract slice
         #if kwds.has_key('data'):     
         section_slice, cell_pos = self.get_section_voxels(direction,position,**kwds)
+
+        # show layers' roofs
+        roof = section_slice.max()+1
+        for x in range(1, len(section_slice[0])):
+            current = section_slice[0][x]
+            for y in range(len(section_slice)):
+                if section_slice[y][x] != current:
+                    current = section_slice[y][x]
+                    section_slice[y][x] = roof
         #else:
         #    section_slice, cell_pos = self.get_section_voxels(direction,position,litho_filter=litho_filter)
             
@@ -578,9 +588,13 @@ class NoddyOutput(object):
             
         #plot section
         title = kwds.get("title", "Section in %s-direction, pos=%d" % (direction, cell_pos))
-                
-        im = ax.imshow(section_slice, interpolation='nearest', aspect=ve, cmap=cmap_type, origin = 'lower left')
-       
+
+        u = np.unique(section_slice)
+        bounds = np.concatenate(([section_slice.min() - 1], u[:-1] + np.diff(u) / 2., [section_slice.max() + 1]))
+        norm = mcolors.BoundaryNorm(bounds, len(bounds) - 1)
+
+        im = ax.imshow(section_slice, interpolation='nearest', aspect=ve, norm=norm, cmap=cmap_type, origin = 'lower left')
+
         if colorbar and 'ax' not in kwds and False: #disable - color bar is broken
 #            cbar = plt.colorbar(im)
 #            _ = cbar
